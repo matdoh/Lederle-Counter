@@ -194,9 +194,9 @@
   //counter 2.2.0
   $cnt = 0;
   $wd = date("w");
-  $tiw = (time() + 3 * 86400) % (7 * 86400);
+  $tiw = (time() + 3 * 86400) % (7 * 86400) + 3600;
 
-  if(1 == date('I', time())) { $tiw += 3600; } //sommerzeit / winterzeit
+  if(1 == date('I', time())) { $tiw += 3600;} //sommerzeit / winterzeit
 
   //set scedule
   $cname="lederle";
