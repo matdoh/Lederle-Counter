@@ -190,6 +190,7 @@
 </body>
 
 <?php
+  date_default_timezone_set('Europe/Berlin');
 
   //counter 2.2.0
   $cnt = 0;
