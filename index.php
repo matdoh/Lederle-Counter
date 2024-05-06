@@ -140,6 +140,11 @@
   }
 </style>
 
+<head>
+    <title>Counter</title>
+    <!--<link rel="icon" href="pics/favicon0.ico">-->
+</head>
+
 <body>
     <div id="underlay"></div>
     <div id="overlay"></div>
@@ -192,7 +197,7 @@
   $wd = date("w");
   $tiw = (time() + 3 * 86400) % (7 * 86400);
 
-  if(!date('I', time())) { $tiw += 3600; } //sommerzeit / winterzeit
+  if(1 == date('I', time())) { $tiw += 3600; } //sommerzeit / winterzeit
 
   //set scedule
   $cname="lederle";
