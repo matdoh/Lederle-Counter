@@ -99,7 +99,7 @@
     font-family: 'Azeret Mono', monospace;
     margin-bottom: 1em;
   }
-  .intro {
+  /*.intro {
     position: absolute;
     font-size: 0.8em;
     color: black;
@@ -108,7 +108,7 @@
     font-style: italic;
     a {
       color: inherit;
-    }}
+    }}*/
   .clist {
     /*background: blue;*/
     border-left: 2px solid black;
@@ -160,7 +160,6 @@
           </div>
         </div>
       </div>
-    </div>
     <div id="lobby">
       <div class="ltitle"><h3>Wilkommen in der Lobby.</h3><br>
         <h4> Wähle einen Counter aus, den du sehen willst.</h4></div><br>
@@ -274,7 +273,8 @@
   }
   
   window.onload = function () {
-      var duration = <?php echo $cnt; ?>;
+      var duration = 0;
+      duration = <?php echo $cnt; ?>;
 
       var display = document.querySelector('#countdown');
       startCountdown(duration, display);
@@ -289,8 +289,7 @@
     cnt = 0;
 
     const d = new Date();
-    let day = d.getDay();
-    wd = day;
+    wd = d.getDay();
     tiw = (d.getTime() + 3 * 86400) % (7 * 86400);
 
     console.log(tiw);
