@@ -203,6 +203,7 @@
   $cnt = 0;
   $wd = date("w");
   $tiw = (time() + 3 * 86400) % (7 * 86400) + 3600;
+  $abw = ((date("W")+1) % 2);
 
   if(1 == date('I', time())) { $tiw += 3600;} //sommerzeit / winterzeit
 
@@ -220,7 +221,7 @@
   #generating arrays
   $tsinweekarr = array();
   $lenarr = array();
-  for($i = 0; isset($ttfileline[$i]); $i++) {
+  for($i = 0; isset($ttfileline[$i]); $i++) {//TODO: AB-Weeks
     if($i%2==0) {
       $tsinweekarr[$i/2] = intval($ttfileline[$i]);
     } else {
