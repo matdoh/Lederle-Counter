@@ -67,6 +67,12 @@
     position: absolute;
     z-index: 600;
   }
+  #screenbutton {
+      top: 1em;
+      left: 1em;
+      position: absolute;
+      z-index: 600;
+  }
 
 
   #lobby {
@@ -149,6 +155,7 @@
     <div id="underlay"></div>
     <div id="overlay"></div>
       <button onclick="openLobby()" id="lobbybutton">...</button>
+      <button onclick="fullscreen()" id="screenbutton">⇱</button>
       <div id="countbox">
         <div id="col1">
           <h1 id="countdown"></h1>
@@ -296,5 +303,41 @@
     console.log(tiw);
 
     //if(!date('I', d.getTime())) { $tiw += 3600; } //sommerzeit / winterzeit
+  }
+
+      /* Get the documentElement (<html>) to display the page in fullscreen */
+  var elem = document.documentElement;
+  let full = false;
+
+  function fullscreen() {
+      if (full) {
+          closeFullscreen()
+      } else {
+          openFullscreen()
+      }
+  }
+
+  /* View in fullscreen */
+  function openFullscreen() {
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+      } else if (elem.webkitRequestFullscreen) { /* Safari */
+        elem.webkitRequestFullscreen();
+      } else if (elem.msRequestFullscreen) { /* IE11 */
+        elem.msRequestFullscreen();
+      }
+      full = true;
+  }
+
+  /* Close fullscreen */
+  function closeFullscreen() {
+      if (document.exitFullscreen) {
+      document.exitFullscreen();
+  } else if (document.webkitExitFullscreen) { /* Safari */
+      document.webkitExitFullscreen();
+  } else if (document.msExitFullscreen) { /* IE11 */
+      document.msExitFullscreen();
+  }
+      full = false;
   }
 </script>
