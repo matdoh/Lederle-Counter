@@ -308,12 +308,24 @@
       /* Get the documentElement (<html>) to display the page in fullscreen */
   var elem = document.documentElement;
   let full = false;
+  // Get the WakeLock API
+  var wakeLock = null;
+  let wakeSent;
 
-  function fullscreen() {
+  async function fullscreen() {
       if (full) {
-          closeFullscreen()
+          closeFullscreen();
+          //document.addEventListener('touchstart', function() {
+          //wakeLock.release();
+          //});
+          //full = false;
       } else {
-          openFullscreen()
+          openFullscreen();
+          //try {
+          //    wakeLock = await navigator.wakeLock.request('screen');
+          //} catch {console.log("failure");}
+
+          //full = true;
       }
   }
 
@@ -326,7 +338,6 @@
       } else if (elem.msRequestFullscreen) { /* IE11 */
         elem.msRequestFullscreen();
       }
-      full = true;
   }
 
   /* Close fullscreen */
@@ -338,6 +349,23 @@
   } else if (document.msExitFullscreen) { /* IE11 */
       document.msExitFullscreen();
   }
-      full = false;
   }
+
+  ["fullscreenchange", "webkitfullscreenchange", "mozfullscreenchange", "msfullscreenchange"].forEach(
+      eventType => document.addEventListener(eventType, async function () {
+          if (full) {
+              wakeLock.release();
+              full = false;
+              console.log("closed")
+          } else {
+              try {
+                  wakeLock = await navigator.wakeLock.request('screen');
+              } catch {
+                  console.log("failure");
+              }
+              full = true;
+              console.log("opened")
+          }
+      }, false)
+  );
 </script>
