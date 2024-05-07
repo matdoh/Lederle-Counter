@@ -221,12 +221,30 @@
   #generating arrays
   $tsinweekarr = array();
   $lenarr = array();
-  for($i = 0; isset($ttfileline[$i]); $i++) {//TODO: AB-Weeks
-    if($i%2==0) {
-      $tsinweekarr[$i/2] = intval($ttfileline[$i]);
+  for($i = 0; $i < count($ttfileline)/2; $i++) {
+      $rawcel = $ttfileline[($i * 2)];
+      $acel = str_replace("A", "", $ttfileline[($i * 2)]);
+      $bcel = str_replace("B", "", $ttfileline[($i * 2)]);
+
+      if($abw==0 && $acel!=$rawcel) {
+          array_push($tsinweekarr, intval($acel));
+          array_push($lenarr, intval($ttfileline[($i * 2 +1)]));
+      } elseif ($abw==1 && $bcel!=$rawcel) {
+          array_push($tsinweekarr, intval($bcel));
+          array_push($lenarr, intval($ttfileline[($i * 2 +1)]));
+      } elseif ($acel==$bcel) {
+          array_push($tsinweekarr, intval($rawcel));
+          array_push($lenarr, intval($ttfileline[($i * 2 +1)]));
+      }
+
+      /*array_push($tsinweekarr, $rawcel);
+      array_push($lenarr, $ttfileline[($i * 2 +1)]);*/
+    /*if($i%2==0) {
+      //$tsinweekarr[$i/2] = intval($ttfileline[$i]);
+        array_push($tsinweekarr, $ttfileline[$i]);
     } else {
       $lenarr[($i-1)/2] = intval($ttfileline[$i]);
-    }
+    }*/
   }
 
   //V-code starts
