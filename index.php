@@ -172,7 +172,6 @@
         <h4> Wähle einen Counter aus, den du sehen willst.</h4></div><br>
       <p class="Intro">(Die Funktion "Permanent wählen" nutzt Cookies.)</p>
       <div class="clist">
-      <!-- TODO: AUtomated Listing from .txt -->
       <?php
       $clist = array();
       $clistlen = 0;
