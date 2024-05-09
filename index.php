@@ -188,6 +188,8 @@
           }
         }
       ?>
+          <!--<a href="../counter">Lederle</a>-->
+          <!-- TODO: Custom counters -->
       </div><!-- clist -->
       <button id='inLobbyButton' onclick='openLobby("-100vh")'><-</button>
       <!--<a href="../counter">Lederle</a>-->
