@@ -188,19 +188,15 @@
           }
         }
       ?>
-          <!--<a href="../counter">Lederle</a>-->
-          <!-- TODO: Custom counters -->
       </div><!-- clist -->
       <button id='inLobbyButton' onclick='openLobby("-100vh")'><-</button>
-      <!--<a href="../counter">Lederle</a>-->
-      <!-- TODO: Custom counters -->
     </div><!-- lobby -->
 </body>
 
 <?php
   date_default_timezone_set('Europe/Berlin');
 
-  //counter 2.2.0
+  //counter 2.3.0
   $cnt = 0;
   $wd = date("w");
   $tiw = (time() + 3 * 86400) % (7 * 86400) + 3600;
@@ -209,16 +205,22 @@
   if(1 == date('I', time())) { $tiw += 3600;} //sommerzeit / winterzeit
 
   //set scedule
-  $cname="lederle";
-  if(isset($_GET['c'])) {$cname = $_GET['c'];} 
-  elseif(isset($_COOKIE['cname'])) {$cname = $_COOKIE['cname'];}
+  if(isset($_GET['ts'])) {$ttfilecon = $_GET['ts'];} else {
+      $cname="lederle";
 
-  #file to str
-  $ttfile = fopen("c_tt/".$cname.".txt", "r");
-  $ttfilecon = fread($ttfile, filesize("c_tt/".$cname.".txt"));
-  fclose($ttfile);
+      if(isset($_GET['c'])) {$cname = $_GET['c'];}
+      elseif(isset($_COOKIE['cname'])) {$cname = $_COOKIE['cname'];}
+
+      $ttfile = fopen("c_tt/".$cname.".txt", "r");
+      $ttfilecon = fread($ttfile, filesize("c_tt/".$cname.".txt"));
+      fclose($ttfile);
+  }
   #dividing str for cells
-  $ttfileline = explode("&", $ttfilecon);
+  if($ttfilecon != str_replace("%26", "", $ttfilecon)) {
+      $ttfileline = explode("%26", $ttfilecon);
+  } else {
+      $ttfileline = explode("&", $ttfilecon);
+  }
   #generating arrays
   $tsinweekarr = array();
   $lenarr = array();
@@ -237,15 +239,6 @@
           array_push($tsinweekarr, intval($rawcel));
           array_push($lenarr, intval($ttfileline[($i * 2 +1)]));
       }
-
-      /*array_push($tsinweekarr, $rawcel);
-      array_push($lenarr, $ttfileline[($i * 2 +1)]);*/
-    /*if($i%2==0) {
-      //$tsinweekarr[$i/2] = intval($ttfileline[$i]);
-        array_push($tsinweekarr, $ttfileline[$i]);
-    } else {
-      $lenarr[($i-1)/2] = intval($ttfileline[$i]);
-    }*/
   }
 
   //V-code starts
