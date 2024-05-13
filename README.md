@@ -26,5 +26,5 @@ Damit ist dieser Countdown vorausgewählt.
 <h3>Setzen eines eigenen Counters in der Domain</h3>
 Stattdessen kann man auch einen eigenen Counter setzen. Die dafür verwendete Variable heißt <b>ts</b>. 
 Man kann beliebig viele Events nach dem oben stehenden Formant platzieren.
-Sind sowohl <b>ts</b> als auch <b>c</b> gesetzt wird <b>ts</ts> gewertet
+Sind sowohl <b>ts</b> als auch <b>c</b> gesetzt wird <b>ts</b> gewertet
 <br><i>(Auch hier, das "&" muss durch "%26" ersetzt werden.)</i>
