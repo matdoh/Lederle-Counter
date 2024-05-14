@@ -28,3 +28,10 @@ Stattdessen kann man auch einen eigenen Counter setzen. Die dafür verwendete Va
 Man kann beliebig viele Events nach dem oben stehenden Formant platzieren.
 Sind sowohl <b>ts</b> als auch <b>c</b> gesetzt wird <b>ts</b> gewertet
 <br><i>(Auch hier, das "&" muss in der Domain durch "%26" ersetzt werden.)</i>
+<br><br>
+<h3>Setzen eines eigenen Farbschemas in der Domain</h3>
+Ebenso kann man ein eigenes Farbschema setzen. Die hier verwendete Variable heißt <b>cs</b>.
+als Wert folgen zwei Hexadezimalwerte direkt aneinander geschrieben.
+Dabei steht der Erste für die Farbe, die der Counter haben soll, solange das Event mehr als eine Stunde entfernt ist.
+Der Zweite steht entsprechend für die Farbe, die der Counter hat, wenn das Event erreicht ist.
+<br><i>Ein Beispiel-Link mit den default-Werten wäre also "matdoh.de/counter/?cs=2AF000FF1F1F"</i>

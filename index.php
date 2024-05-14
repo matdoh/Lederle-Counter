@@ -258,6 +258,8 @@
 ?>
 
 <script>
+    const rgb = detColors();
+
   function startCountdown(duration, display) {
       var timer = duration, days, hours, minutes, seconds;
       var interval = setInterval(function () {
@@ -282,12 +284,13 @@
               opac = 1; 
             }
             aopac = 1 - (opac);
+
             if(<?php echo var_export($in, true); ?>) 
-              {document.getElementById("underlay").style.background = "rgba(42, 240, 0, " + aopac + ")";
-              document.getElementById("overlay").style.background = "rgba(255, 31, 31, " + opac + ")";
+              {document.getElementById("underlay").style.background = "rgba("+ rgb[0] +", "+ rgb[1] +", "+ rgb[2] +", " + aopac + ")";
+              document.getElementById("overlay").style.background = "rgba("+ rgb[3] +", "+ rgb[4] +", "+ rgb[5] +", " + opac + ")";
                     /*display.textContent = "true in - opac - rot";*/}
-            else {document.getElementById("overlay").style.background = "rgba(42, 240, 0, " + opac + ")";
-                 document.getElementById("underlay").style.background = "rgba(255, 31, 31, " + aopac + ")";
+            else {document.getElementById("overlay").style.background = "rgba("+ rgb[0] +", "+ rgb[1] +", "+ rgb[2] +", " + opac + ")";
+                 document.getElementById("underlay").style.background = "rgba("+ rgb[3] +", "+ rgb[4] +", "+ rgb[5] +", " + aopac + ")";
                    /*display.textContent = "false out - opac - grün";*/}
       
       }, 1000);
@@ -301,6 +304,22 @@
       startCountdown(duration, display);
       figure_timer();
   };
+
+  function detColors() {
+      const queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
+      const colorstamp = urlParams.get('cs');
+
+      if(colorstamp != null) {
+          let back = [];
+
+          for (let i = 0; i < 6; i++) {
+              back[i] = parseInt(colorstamp.substring(2 * i, 2 * i + 2), 16);
+          }
+
+          return back;
+      } else {return [42, 240, 0, 255, 31, 31];} //meine Fallback
+  }
 
   function openLobby(v="0") {
     document.getElementById("lobby").style.top = v;
