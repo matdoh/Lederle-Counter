@@ -94,13 +94,15 @@
   }
   .ltitle h3 {
     /*background-color: blue;*/
-    font-size: 3em;
+      font-size: 8vh;
+    /*font-size: 3em;*/
     margin-bottom: 0;
     font-family: 'Azeret Mono', monospace;
   }
   .ltitle h4 {
     /*background-color: blue;*/
-    font-size: 2em;
+    /*font-size: 2em;*/
+    font-size: 6vh;
     margin-top: 0;
     font-family: 'Azeret Mono', monospace;
     margin-bottom: 1em;
@@ -120,9 +122,9 @@
     border-left: 2px solid black;
     padding-left: 1em;
     height: auto;
-    max-width: 80vh;
+    /*max-width: 80vh;*/
     top:0;
-    bottom: 2em;
+    margin-bottom: 4vh;
     overflow: scroll;
     p {
       font-size: 1em;
@@ -154,6 +156,7 @@
 <body>
     <div id="underlay"></div>
     <div id="overlay"></div>
+      <!--TODO: Remove Lobby-button when selective Domain is set-->
       <button onclick="openLobby()" id="lobbybutton">...</button>
       <button onclick="fullscreen()" id="screenbutton">⇱</button>
       <div id="countbox">
@@ -306,6 +309,8 @@
   };
 
   function detColors() {
+      /*TODO WHEN FREE: detColors from file,
+      requires JSON-Encrypt, Full JS*/
       const queryString = window.location.search;
       const urlParams = new URLSearchParams(queryString);
       const colorstamp = urlParams.get('cs');
@@ -318,7 +323,7 @@
           }
 
           return back;
-      } else {return [42, 240, 0, 255, 31, 31];} //meine Fallback
+      } else {return [42, 240, 0, 255, 31, 31];} //meine Fallback-Werte
   }
 
   function openLobby(v="0") {
@@ -386,14 +391,14 @@
   ["fullscreenchange", "webkitfullscreenchange", "mozfullscreenchange", "msfullscreenchange"].forEach(
       eventType => document.addEventListener(eventType, async function () {
           if (full) {
-              wakeLock.release();
+              if (wakeLock != null) {wakeLock.release();}
               full = false;
               console.log("closed")
           } else {
               try {
                   wakeLock = await navigator.wakeLock.request('screen');
               } catch {
-                  console.log("failure");
+                  console.log("no wakelock");
               }
               full = true;
               console.log("opened")
