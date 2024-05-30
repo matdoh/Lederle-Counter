@@ -207,6 +207,8 @@
 
   if(1 == date('I', time())) { $tiw += 3600;} //sommerzeit / winterzeit
 
+  echo "<script>console.log('tiw (php): " . $tiw . "');</script>";
+
   //set scedule
   if(isset($_GET['ts'])) {$ttfilecon = $_GET['ts'];} else {
       $cname="lederle";
@@ -305,7 +307,7 @@
 
       var display = document.querySelector('#countdown');
       startCountdown(duration, display);
-      figure_timer();
+      console.log(figure_weekly());
   };
 
   function detColors() {
@@ -330,16 +332,68 @@
     document.getElementById("lobby").style.top = v;
   }
 
-  function figure_timer(rawstr="") { //counter ß3.0.0
+    function isDST(date) {
+        let jan = new Date(date.getFullYear(), 0, 1).getTimezoneOffset();
+        let jul = new Date(date.getFullYear(), 6, 1).getTimezoneOffset();
+        return Math.max(jan, jul) !== date.getTimezoneOffset();
+    }
+
+  function figure_weekly(rawstr="213000&5400&385800&5400") { //counter ß3.0.0
     cnt = 0;
 
     const d = new Date();
-    wd = d.getDay();
-    tiw = (d.getTime() + 3 * 86400) % (7 * 86400);
+    let onejan = new Date(d.getFullYear(), 0, 1);
+    let abw = ((Math.ceil((((d.getTime() - onejan.getTime()) / 86400000) + onejan.getDay() + 1) / 7) + 1) % 2);
 
-    console.log(tiw);
+      tiw = (Math.floor(d.getTime() / 1000) + 3 * 86400 + 3600) % (7 * 86400);
+    //DST;
+      if(isDST(d)) {tiw = tiw + 3600 % (7 * 86400);}
 
-    //if(!date('I', d.getTime())) { $tiw += 3600; } //sommerzeit / winterzeit
+
+    console.log("tiw (js):  " + tiw);
+
+      //dividing str for cells
+      let stray1 = [];
+      if(rawstr !== rawstr.replace("%26", "")) {
+          stray1 = rawstr.split("%26");
+      } else {
+          stray1 = rawstr.split("&");
+      }
+
+      /*generating arrays*/
+      const tsinweekarr = [];
+      const lenarr = [];
+      for(let i = 0; i < stray1.length/2; i++) {
+          let rawcel = stray1[i * 2];
+          let acel = stray1[i * 2].replace("A", "");
+          let bcel = stray1[i * 2].replace("B", "");
+
+          if(abw === 0 && acel!==rawcel) {
+              tsinweekarr.push(Number(acel));
+              lenarr.push(Number(stray1[i * 2 + 1]));
+          } else if(abw === 1 && bcel!==rawcel) {
+              tsinweekarr.push(Number(bcel));
+              lenarr.push(Number(stray1[i * 2 + 1]));
+          } else if(acel===bcel) {
+              tsinweekarr.push(Number(acel));
+              lenarr.push(Number(stray1[i * 2 + 1]));
+          }
+      }
+
+      //V-code starts
+
+      let inn = false;
+      let next = 604800;
+
+      for(let i = 0; i < tsinweekarr.length; i++) {
+          if(tsinweekarr[i] < tiw && tiw < (tsinweekarr[i] + lenarr[i])) {inn = true;}
+
+          let pnext = ((7 * 86400) + tsinweekarr[i] - tiw + lenarr[i]) % (7 * 86400);
+          if(pnext < next && pnext > 0) {
+              if(!inn) {next = pnext - lenarr[i];} else {next = pnext;}
+          }
+      }
+      return next;
   }
 
       /* Get the documentElement (<html>) to display the page in fullscreen */
