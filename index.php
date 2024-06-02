@@ -32,7 +32,7 @@
       z-index: 2;
       /*background: rgba(42, 240, 0, 0.55); /* Adjust the alpha value for the desired transparency */
   }
-  #countdown {margin: 0; padding: 0;}
+  #countdown0 {margin: 0; padding: 0;}
   #countbox { /*  flexboxen   */
     position: absolute;
     top: 50%;
@@ -151,6 +151,7 @@
 <head>
     <title>Counter</title>
     <!--<link rel="icon" href="pics/favicon0.ico">-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 
 <body>
@@ -161,7 +162,7 @@
       <button onclick="fullscreen()" id="screenbutton">⇱</button>
       <div id="countbox">
         <div id="col1">
-          <h1 id="countdown"></h1>
+          <h1 id="countdown0"></h1>
           <div id="row1">
             <div class="tag"><p>tage</p></div>
             <div class="tag gappa"><p>stunden</p></div>
@@ -177,17 +178,25 @@
       <div class="clist">
       <?php
       $clist = array();
+      $ccon = array();
       $clistlen = 0;
 
       $filesl = scandir("c_tt");
         foreach ($filesl as $file) {
           $filePath = 'c_tt/' . $file;
           if (is_file($filePath)) {
-            $clist[$clistlen] = explode(".",$file)[0];
-            echo "<p>" . ucwords($clist[$clistlen]) . ": " . 
-              "<a href='../counter?c=".$clist[$clistlen]."'>Ansehen</a> " . 
-              "<a href='setcookie.php?c=".$clist[$clistlen]."'>Permanent wählen</a></p>";
-            $clistlen++;
+              $cfile = fopen($filePath, "r");
+              $cfilecon = fread($cfile, filesize($filePath));
+              fclose($cfile);
+
+              $ccon[$clistlen] = $cfilecon;
+              $clist[$clistlen] = explode(".",$file)[0];
+              echo '
+                <p>' . ucwords($clist[$clistlen]) . ' 
+                <button id="b' . $clistlen . '" onclick=Select("' . $ccon[$clistlen] . '")>Ansehen</button>
+                <a href="setcookie.php?c='.$clist[$clistlen].'">Permanent wählen</a></p>
+              ';
+              $clistlen++;
           }
         }
       ?>
@@ -264,6 +273,7 @@
 
 <script>
     const rgb = detColors();
+    let cid = 0;
 
   function startCountdown(duration, display) {
       var timer = duration, days, hours, minutes, seconds;
@@ -278,11 +288,15 @@
           minutes = minutes < 10 ? "0" + minutes : minutes;
           seconds = seconds < 10 ? "0" + seconds : seconds;
 
-          display.textContent = days + ":" + hours + ":" + minutes + ":" + seconds;
+          try {
+              document.querySelector(display).textContent = days + ":" + hours + ":" + minutes + ":" + seconds;
+          } catch {
+              return;
+          }
 
           if (--timer < 0) {
               clearInterval(interval);
-              display.textContent = "Countdown finished!";
+              document.querySelector(display).textContent = "Countdown finished!";
           }
             opac = (timer / 3600);
             if (opac > 1) {
@@ -297,16 +311,16 @@
             else {document.getElementById("overlay").style.background = "rgba("+ rgb[0] +", "+ rgb[1] +", "+ rgb[2] +", " + opac + ")";
                  document.getElementById("underlay").style.background = "rgba("+ rgb[3] +", "+ rgb[4] +", "+ rgb[5] +", " + aopac + ")";
                    /*display.textContent = "false out - opac - grün";*/}
-      
       }, 1000);
   }
   
   window.onload = function () {
       var duration = 0;
       duration = <?php echo $cnt; ?>;
+      //duration = figure_weekly(ChooseSet());
 
-      var display = document.querySelector('#countdown');
-      startCountdown(duration, display);
+      //var display = document.querySelector('#countdown0');
+      startCountdown(duration, '#countdown0');
       console.log(figure_weekly());
   };
 
@@ -440,6 +454,17 @@
   } else if (document.msExitFullscreen) { /* IE11 */
       document.msExitFullscreen();
   }
+  }
+
+  function Select(data) {
+      console.log("bin in der Select ", data);
+      console.log("figure weekly: ", figure_weekly(data));
+
+      document.getElementById('countdown'+cid).id = 'countdown'+(cid+1);
+      var display = '#countdown'+(cid+1);
+      cid++;
+      startCountdown(figure_weekly(data), display);
+      openLobby("-100vh");
   }
 
   ["fullscreenchange", "webkitfullscreenchange", "mozfullscreenchange", "msfullscreenchange"].forEach(
