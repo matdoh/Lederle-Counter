@@ -152,6 +152,7 @@
     <title>Counter</title>
     <!--<link rel="icon" href="pics/favicon0.ico">-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
 </head>
 
 <body>
@@ -192,8 +193,8 @@
               $ccon[$clistlen] = $cfilecon;
               $clist[$clistlen] = explode(".",$file)[0];
               echo '
-                <p>' . ucwords($clist[$clistlen]) . ' 
-                <button id="b' . $clistlen . '" onclick=Select("' . $ccon[$clistlen] . '")>Ansehen</button>
+                <p>' . $clist[$clistlen] . ' 
+                <button id="b' . $clistlen . '" name="' . $clist[$clistlen] . '" onclick=Select("' . $ccon[$clistlen] . '")>Ansehen</button>
                 <a href="setcookie.php?c='.$clist[$clistlen].'">Permanent wählen</a></p>
               ';
               $clistlen++;
@@ -321,7 +322,8 @@
 
       //var display = document.querySelector('#countdown0');
       startCountdown(duration, '#countdown0');
-      console.log(figure_weekly());
+      console.log("dere we go: ", figure_weekly(AutoChoose()));
+      console.log("an ol wi php: ", duration);
   };
 
   function detColors() {
@@ -408,6 +410,28 @@
           }
       }
       return next;
+  }
+
+  function AutoChoose(){
+      //set scedule
+      const queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
+
+      if(urlParams.has('ts')) {
+          return urlParams.get('ts');
+      } else {
+          let cname = "lederle";
+
+          if(urlParams.has('c')) {cname = urlParams.get('c');}
+          //TODO Cookies wieder supporten aber js cookies sind shit
+          //else if(Cookies.get('cname') !== null) {cname = Cookies.get('cname') + " ";}
+
+          cname = "\"" + cname + "\"";
+          console.log("came for: ", cname);
+
+          let onclstr = document.querySelector("button[name=" + cname + "]").onclick.toString();
+          return onclstr.substring(34, onclstr.length - 4);
+      }
   }
 
       /* Get the documentElement (<html>) to display the page in fullscreen */
