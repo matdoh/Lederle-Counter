@@ -152,7 +152,6 @@
     <title>Counter</title>
     <!--<link rel="icon" href="pics/favicon0.ico">-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
 </head>
 
 <body>
@@ -175,8 +174,9 @@
     <div id="lobby">
       <div class="ltitle"><h3>Wilkommen in der Lobby.</h3><br>
         <h4> Wähle einen Counter aus, den du sehen willst.</h4></div><br>
-      <p class="Intro">(Die Funktion "Permanent wählen" nutzt Cookies.)</p>
+      <!-- <p class="Intro">(Die Funktion "Permanent wählen" nutzt Cookies.)</p> -->
       <div class="clist">
+          <!-- TODO: Listing via JS and php API-->
       <?php
       $clist = array();
       $ccon = array();
@@ -195,7 +195,7 @@
               echo '
                 <p>' . $clist[$clistlen] . ' 
                 <button id="b' . $clistlen . '" name="' . $clist[$clistlen] . '" onclick=Select("' . $ccon[$clistlen] . '")>Ansehen</button>
-                <a href="setcookie.php?c='.$clist[$clistlen].'">Permanent wählen</a></p>
+                <!-- <a href="setcookie.php?c='.$clist[$clistlen].'">Permanent wählen</a></p> -->
               ';
               $clistlen++;
           }
@@ -206,75 +206,16 @@
     </div><!-- lobby -->
 </body>
 
-<?php
-  date_default_timezone_set('Europe/Berlin');
-
-  //counter 2.3.0
-  $cnt = 0;
-  $wd = date("w");
-  $tiw = (time() + 3 * 86400) % (7 * 86400) + 3600;
-  $abw = ((date("W")+1) % 2);
-
-  if(1 == date('I', time())) { $tiw += 3600;} //sommerzeit / winterzeit
-
-  echo "<script>console.log('tiw (php): " . $tiw . "');</script>";
-
-  //set scedule
-  if(isset($_GET['ts'])) {$ttfilecon = $_GET['ts'];} else {
-      $cname="lederle";
-
-      if(isset($_GET['c'])) {$cname = $_GET['c'];}
-      elseif(isset($_COOKIE['cname'])) {$cname = $_COOKIE['cname'];}
-
-      $ttfile = fopen("c_tt/".$cname.".txt", "r");
-      $ttfilecon = fread($ttfile, filesize("c_tt/".$cname.".txt"));
-      fclose($ttfile);
-  }
-  #dividing str for cells
-  if($ttfilecon != str_replace("%26", "", $ttfilecon)) {
-      $ttfileline = explode("%26", $ttfilecon);
-  } else {
-      $ttfileline = explode("&", $ttfilecon);
-  }
-  #generating arrays
-  $tsinweekarr = array();
-  $lenarr = array();
-  for($i = 0; $i < count($ttfileline)/2; $i++) {
-      $rawcel = $ttfileline[($i * 2)];
-      $acel = str_replace("A", "", $ttfileline[($i * 2)]);
-      $bcel = str_replace("B", "", $ttfileline[($i * 2)]);
-
-      if($abw==0 && $acel!=$rawcel) {
-          array_push($tsinweekarr, intval($acel));
-          array_push($lenarr, intval($ttfileline[($i * 2 +1)]));
-      } elseif ($abw==1 && $bcel!=$rawcel) {
-          array_push($tsinweekarr, intval($bcel));
-          array_push($lenarr, intval($ttfileline[($i * 2 +1)]));
-      } elseif ($acel==$bcel) {
-          array_push($tsinweekarr, intval($rawcel));
-          array_push($lenarr, intval($ttfileline[($i * 2 +1)]));
-      }
-  }
-
-  //V-code starts
-  $in = false;
-
-  $next = 604800;
-  for($i = 0; $i < count($tsinweekarr); $i++) {
-      if($tsinweekarr[$i] < $tiw && $tiw < ($tsinweekarr[$i] + $lenarr[$i])) {$in = true;}
-  
-      $pnext = ((7 * 86400) + $tsinweekarr[$i] - $tiw + $lenarr[$i]) % (7 * 86400);
-      if($pnext < $next && $pnext > 0) {
-        if(!$in) {$next = $pnext - $lenarr[$i];} else {$next = $pnext;}
-      }
-  } 
-
-  $cnt = $next;
-?>
-
 <script>
     const rgb = detColors();
     let cid = 0;
+    var elem = document.documentElement;
+    let full = false;
+    var wakeLock = null;
+    let wakeSent;
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    var isgoing = false;
 
   function startCountdown(duration, display) {
       var timer = duration, days, hours, minutes, seconds;
@@ -305,7 +246,7 @@
             }
             aopac = 1 - (opac);
 
-            if(<?php echo var_export($in, true); ?>) 
+            if(isgoing === true)
               {document.getElementById("underlay").style.background = "rgba("+ rgb[0] +", "+ rgb[1] +", "+ rgb[2] +", " + aopac + ")";
               document.getElementById("overlay").style.background = "rgba("+ rgb[3] +", "+ rgb[4] +", "+ rgb[5] +", " + opac + ")";
                     /*display.textContent = "true in - opac - rot";*/}
@@ -316,14 +257,7 @@
   }
   
   window.onload = function () {
-      var duration = 0;
-      duration = <?php echo $cnt; ?>;
-      //duration = figure_weekly(ChooseSet());
-
-      //var display = document.querySelector('#countdown0');
-      startCountdown(duration, '#countdown0');
-      console.log("dere we go: ", figure_weekly(AutoChoose()));
-      console.log("an ol wi php: ", duration);
+      startCountdown(figure_weekly(AutoChoose()), '#countdown0');
   };
 
   function detColors() {
@@ -348,35 +282,56 @@
     document.getElementById("lobby").style.top = v;
   }
 
-    function isDST(date) {
+  function isDST(date) {
         let jan = new Date(date.getFullYear(), 0, 1).getTimezoneOffset();
         let jul = new Date(date.getFullYear(), 6, 1).getTimezoneOffset();
         return Math.max(jan, jul) !== date.getTimezoneOffset();
     }
 
-  function figure_weekly(rawstr="213000&5400&385800&5400") { //counter ß3.0.0
-    cnt = 0;
+  function Select(data) {
+        document.getElementById('countdown'+cid).id = 'countdown'+(cid+1);
+        var display = '#countdown'+(cid+1);
+        cid++;
+        startCountdown(figure_weekly(data), display);
+        openLobby("-100vh");
+    }
 
-    const d = new Date();
-    let onejan = new Date(d.getFullYear(), 0, 1);
-    let abw = ((Math.ceil((((d.getTime() - onejan.getTime()) / 86400000) + onejan.getDay() + 1) / 7) + 1) % 2);
+  function AutoChoose(){
+        if(urlParams.has('ts')) {
+            return urlParams.get('ts');
+        } else {
+            let cname = "lederle";
+
+            if(urlParams.has('c')) {cname = urlParams.get('c');}
+            //TODO Cookies wieder supporten aber js cookies sind shit
+            //else if(Cookies.get('cname') !== null) {cname = Cookies.get('cname') + " ";}
+
+            cname = "\"" + cname + "\"";
+
+            let onclstr = document.querySelector("button[name=" + cname + "]").onclick.toString();
+            return onclstr.substring(34, onclstr.length - 4);
+        }
+    }
+
+  function figure_weekly(rawstr="213000&5400&385800&5400") {
+      cnt = 0;
+
+      const d = new Date();
+      let onejan = new Date(d.getFullYear(), 0, 1);
+      let abw = ((Math.ceil((((d.getTime() - onejan.getTime()) / 86400000) + onejan.getDay() + 1) / 7) + 1) % 2);
 
       tiw = (Math.floor(d.getTime() / 1000) + 3 * 86400 + 3600) % (7 * 86400);
-    //DST;
       if(isDST(d)) {tiw = tiw + 3600 % (7 * 86400);}
 
-
-    console.log("tiw (js):  " + tiw);
-
       //dividing str for cells
-      let stray1 = [];
+      let stray1;
       if(rawstr !== rawstr.replace("%26", "")) {
           stray1 = rawstr.split("%26");
       } else {
           stray1 = rawstr.split("&");
       }
 
-      /*generating arrays*/
+      //generating arrays
       const tsinweekarr = [];
       const lenarr = [];
       for(let i = 0; i < stray1.length/2; i++) {
@@ -396,69 +351,28 @@
           }
       }
 
-      //V-code starts
-
-      let inn = false;
+      //Value-code
       let next = 604800;
 
       for(let i = 0; i < tsinweekarr.length; i++) {
-          if(tsinweekarr[i] < tiw && tiw < (tsinweekarr[i] + lenarr[i])) {inn = true;}
+          if(tsinweekarr[i] < tiw && tiw < (tsinweekarr[i] + lenarr[i])) {isgoing = true;}
 
           let pnext = ((7 * 86400) + tsinweekarr[i] - tiw + lenarr[i]) % (7 * 86400);
           if(pnext < next && pnext > 0) {
-              if(!inn) {next = pnext - lenarr[i];} else {next = pnext;}
+              if(!isgoing) {next = pnext - lenarr[i];} else {next = pnext;}
           }
       }
       return next;
   }
 
-  function AutoChoose(){
-      //set scedule
-      const queryString = window.location.search;
-      const urlParams = new URLSearchParams(queryString);
-
-      if(urlParams.has('ts')) {
-          return urlParams.get('ts');
-      } else {
-          let cname = "lederle";
-
-          if(urlParams.has('c')) {cname = urlParams.get('c');}
-          //TODO Cookies wieder supporten aber js cookies sind shit
-          //else if(Cookies.get('cname') !== null) {cname = Cookies.get('cname') + " ";}
-
-          cname = "\"" + cname + "\"";
-          console.log("came for: ", cname);
-
-          let onclstr = document.querySelector("button[name=" + cname + "]").onclick.toString();
-          return onclstr.substring(34, onclstr.length - 4);
-      }
-  }
-
-      /* Get the documentElement (<html>) to display the page in fullscreen */
-  var elem = document.documentElement;
-  let full = false;
-  // Get the WakeLock API
-  var wakeLock = null;
-  let wakeSent;
-
   async function fullscreen() {
       if (full) {
           closeFullscreen();
-          //document.addEventListener('touchstart', function() {
-          //wakeLock.release();
-          //});
-          //full = false;
       } else {
           openFullscreen();
-          //try {
-          //    wakeLock = await navigator.wakeLock.request('screen');
-          //} catch {console.log("failure");}
-
-          //full = true;
       }
   }
 
-  /* View in fullscreen */
   function openFullscreen() {
       if (elem.requestFullscreen) {
         elem.requestFullscreen();
@@ -469,28 +383,17 @@
       }
   }
 
-  /* Close fullscreen */
   function closeFullscreen() {
       if (document.exitFullscreen) {
-      document.exitFullscreen();
-  } else if (document.webkitExitFullscreen) { /* Safari */
-      document.webkitExitFullscreen();
-  } else if (document.msExitFullscreen) { /* IE11 */
-      document.msExitFullscreen();
-  }
-  }
-
-  function Select(data) {
-      console.log("bin in der Select ", data);
-      console.log("figure weekly: ", figure_weekly(data));
-
-      document.getElementById('countdown'+cid).id = 'countdown'+(cid+1);
-      var display = '#countdown'+(cid+1);
-      cid++;
-      startCountdown(figure_weekly(data), display);
-      openLobby("-100vh");
+        document.exitFullscreen();
+      } else if (document.webkitExitFullscreen) { /* Safari */
+        document.webkitExitFullscreen();
+      } else if (document.msExitFullscreen) { /* IE11 */
+        document.msExitFullscreen();
+      }
   }
 
+  //fullscreen event listener
   ["fullscreenchange", "webkitfullscreenchange", "mozfullscreenchange", "msfullscreenchange"].forEach(
       eventType => document.addEventListener(eventType, async function () {
           if (full) {
