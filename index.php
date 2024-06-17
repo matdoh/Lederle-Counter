@@ -14,6 +14,9 @@
     font-size: 12vw;
     font-family: 'Azeret Mono', monospace;
   }
+  p {
+      font-family: "Roboto", "Plus Jakarta", sans-serif;
+  }
   #underlay {
     position: absolute;
     top: 0;
@@ -55,8 +58,10 @@
     padding-top: 0;
     width: 18.181818%;
     text-align: center;
-    font-family: 'Azeret Mono', monospace;
-    letter-spacing: 4px;
+      p {
+          font-family: 'Azeret Mono', monospace;
+          letter-spacing: 4px;
+      }
   }
   .gappa {
     margin-left: 9.090909%;
@@ -107,16 +112,7 @@
     font-family: 'Azeret Mono', monospace;
     margin-bottom: 1em;
   }
-  /*.intro {
-    position: absolute;
-    font-size: 0.8em;
-    color: black;
-    bottom: 1em;
-    font-family: "Roboto", "Plus Jakarta", sans-serif;
-    font-style: italic;
-    a {
-      color: inherit;
-    }}*/
+
   .clist {
     /*background: blue;*/
     border-left: 2px solid black;
@@ -146,6 +142,186 @@
     bottom: 1em;
     right: 1em;
   }
+
+  #slobby0 {
+      transition: 0.8s;
+      background: #FFF;
+      position: absolute;
+      height: 100%;
+      width: 100vw;
+      overflow: hidden;
+      top: -100vh;
+      left: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 710;
+      box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      border-bottom: 12px solid #777777;
+  }
+  #ccformblock {
+      margin-top: 10vh;
+      max-height: 80vh;
+      overflow: scroll;
+  }
+  .ccentry {
+      border-bottom: 1px solid black;
+      padding: 0.7em 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      height: 120px;
+  }
+  #ccformout button {
+      text-decoration: underline;
+      font-style: italic;
+  }
+  @keyframes ccentry0 {
+      0% {
+          height: 0;
+          padding: 0;
+      } 99% {
+          height: 120px;
+          padding: 0.7em 0;
+          div {
+              display: none;
+              opacity: 0;
+          }
+      } 100% {
+          div {
+              display: flex;
+              opacity: 100%;
+          }
+      }
+  }
+  @keyframes ccentry1 {
+      0% {
+          div {
+              display: flex;
+              opacity: 100%;
+          }
+      } 1% {
+            height: 120px;
+            padding: 0.7em 0;
+            div {
+                display: none;
+                opacity: 0;
+            }
+        } 100% {
+            height: 0;
+            padding: 0;
+        }
+  }
+  .formendbar {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      padding-top: 0.7em;
+  }
+  .wdbar {
+      margin-bottom: 0.7em;
+  }
+  .wden {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 40px;
+      height: 40px;
+      position: relative;
+      background: #DDDDDD;
+      transition: 0.1s;
+      margin: 0 10px;
+  }
+  .wden:after {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      z-index: 709;
+      transform: translate(-50%, -50%);
+      font-family: 'Azeret Mono', monospace;
+  }
+  .wden:hover {
+      border: 1px solid #777777;
+      background: #BBBBBB;
+  }
+  .wden:checked {
+      border: 2px solid darkblue;
+      background: lightskyblue;
+  }
+  .wdmon:after {content: "mo";}
+  .wdtue:after {content: "di";}
+  .wdwed:after {content: "mi";}
+  .wdthu:after {content: "do";}
+  .wdfri:after {content: "fr";}
+  .wdsat:after {content: "sa";}
+  .wdsun:after {content: "so";}
+
+  .wddetails {
+      height: 42px;
+      display: flex;
+      font-family: 'Azeret Mono', monospace;
+      align-items: center;
+  }
+  .wdditem {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      padding: 20px;
+  }
+  .abinput {
+      box-sizing: border-box;
+      -webkit-appearance: none;
+      appearance: none;
+      height: 40px;
+      width: 40px;
+      border: none;
+      background: #DDDDDD;
+      transition: 0.1s;
+      margin-left: 10px;
+      font-family: inherit;
+      text-align: center;
+  }
+  .abinput:hover {
+      border-bottom: 1px solid #777777;
+      background: #BBBBBB;
+  }
+  .abinput:focus {
+      outline: none;
+      border-bottom: 2px solid darkblue;
+  }
+  .tsinput {
+      font-family: inherit;
+      padding-left: 10px;
+  }
+  .tsinput input{
+      box-sizing: border-box;
+      -webkit-appearance: none;
+      appearance: none;
+      height: 40px;
+      width: 40px;
+      border: none;
+      background: #DDDDDD;
+      transition: 0.1s;
+      font-family: inherit;
+      text-align: center;
+      margin: 3px;
+  }
+  .tsinput input:hover {
+      border-bottom: 1px solid #777777;
+      background: #BBBBBB;
+  }
+  .tsinput input:focus {
+      outline: none;
+      border-bottom: 2px solid darkblue;
+  }
+  .tsinput input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+  }
+
+
 </style>
 
 <head>
@@ -157,7 +333,7 @@
 <body>
     <div id="underlay"></div>
     <div id="overlay"></div>
-      <!--TODO: Remove Lobby-button when selective Domain is set-->
+      <!--TODO: Slim Version-->
       <button onclick="openLobby()" id="lobbybutton">...</button>
       <button onclick="fullscreen()" id="screenbutton">⇱</button>
       <div id="countbox">
@@ -203,7 +379,24 @@
       ?>
       </div><!-- clist -->
       <button id='inLobbyButton' onclick='openLobby("-100vh")'><-</button>
+      <button id='SlobbyButton' onclick='openLobby("0", "slobby0")'>Set your own Contdown-></button>
     </div><!-- lobby -->
+    <div id="slobby0">
+        <div id="ccformblock">
+            <div id="ccset"></div>
+            <div class="formendbar">
+                <div class="ccb-left">
+                    <button onclick="AddEntry()">+</button>
+                    <button onclick="ResetCustom()">↺</button>
+                </div>
+                <div class="ccb-right">
+                    <button onclick="HandleCustomLink()">=></button>
+                </div>
+            </div>
+            <p id="ccformout"></p>
+        </div><!-- ccformblock -->
+        <button id='inLobbyButton' onclick='openLobby("-100vh", "slobby0"); openLobby("-100vh");'><-</button>
+    </div><!-- slobby0 -->
 </body>
 
 <script>
@@ -211,11 +404,10 @@
     let cid = 0;
     var elem = document.documentElement;
     let full = false;
-    var wakeLock = null;
-    let wakeSent;
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     var isgoing = false;
+    let cclen = 0
 
   function startCountdown(duration, display) {
       var timer = duration, days, hours, minutes, seconds;
@@ -257,6 +449,7 @@
   }
   
   window.onload = function () {
+      AddEntry();
       startCountdown(figure_weekly(AutoChoose()), '#countdown0');
   };
 
@@ -278,8 +471,137 @@
       } else {return [42, 240, 0, 255, 31, 31];} //meine Fallback-Werte
   }
 
-  function openLobby(v="0") {
-    document.getElementById("lobby").style.top = v;
+  function AddEntry() {
+      const ccentry = document.createElement("div");
+        ccentry.className = "ccentry";
+        //ccentry.style = "height: 0; padding: 0;";
+        const wdbar = document.createElement("div");
+            wdbar.className = "wdbar";
+            const wdmon = document.createElement("input");
+                wdmon.type = "radio";
+                wdmon.name = "wd" + cclen;
+                wdmon.className = "wdmon wden";
+                wdmon.value = "0";
+                wdbar.appendChild(wdmon);
+            const wdtue = document.createElement("input");
+                wdtue.type = "radio";
+                wdtue.name = "wd" + cclen;
+                wdtue.className = "wdtue wden";
+                wdtue.value = "1";
+                wdbar.appendChild(wdtue);
+            const wdwed = document.createElement("input");
+                wdwed.type = "radio";
+                wdwed.name = "wd" + cclen;
+                wdwed.className = "wdwed wden";
+                wdwed.value = "2";
+                wdbar.appendChild(wdwed);
+            const wdthu = document.createElement("input");
+                wdthu.type = "radio";
+                wdthu.name = "wd" + cclen;
+                wdthu.className = "wdthu wden";
+                wdthu.value = "3";
+                wdbar.appendChild(wdthu);
+            const wdfri = document.createElement("input");
+                wdfri.type = "radio";
+                wdfri.name = "wd" + cclen;
+                wdfri.className = "wdfri wden";
+                wdfri.value = "4";
+                wdbar.appendChild(wdfri);
+            const wdsat = document.createElement("input");
+                wdsat.type = "radio";
+                wdsat.name = "wd" + cclen;
+                wdsat.className = "wdsat wden";
+                wdsat.value = "5";
+                wdbar.appendChild(wdsat);
+            const wdsun = document.createElement("input");
+                wdsun.type = "radio";
+                wdsun.name = "wd" + cclen;
+                wdsun.className = "wdsun wden";
+                wdsun.value = "6";
+                wdbar.appendChild(wdsun);
+            ccentry.appendChild(wdbar);
+        const wddetails = document.createElement("div");
+            wddetails.className = "wddetails"
+            const begindiv = document.createElement("div");
+                begindiv.className = "wdditem";
+                const beginlabel = document.createElement("label");
+                    const bltext = document.createTextNode("beginn: ");
+                        beginlabel.appendChild(bltext);
+                    beginlabel.htmlFor = "start" + cclen + "h";
+                begindiv.appendChild(beginlabel);
+                const begin = document.createElement("div");
+                    begin.id = "start" + cclen;
+                    begin.className = "tsinput";
+                    const beginh = document.createElement("input");
+                        beginh.id = "start" + cclen + "h";
+                        beginh.name = "start" + cclen + "h";
+                        beginh.type = "number";
+                        beginh.max = "23";
+                        beginh.min = "0";
+                        begin.appendChild(beginh);
+                    const beginsep = document.createTextNode(":");
+                        begin.appendChild(beginsep);
+                    const beginm = document.createElement("input");
+                        beginm.id = "start" + cclen + "m";
+                        beginm.name = "start" + cclen + "m";
+                        beginm.type = "number";
+                        beginm.max = "59";
+                        beginm.min = "0";
+                        begin.appendChild(beginm);
+                begindiv.appendChild(begin);
+            wddetails.appendChild(begindiv)
+            const enddiv = document.createElement("div");
+                enddiv.className = "wdditem";
+                const endlabel = document.createElement("label");
+                    const eltext = document.createTextNode("ende: ");
+                        endlabel.appendChild(eltext);
+                    endlabel.htmlFor = "end" + cclen + "h";
+                    enddiv.appendChild(endlabel);
+                const end = document.createElement("div");
+                    end.id = "end" + cclen;
+                    end.className = "tsinput";
+                    const endh = document.createElement("input");
+                        endh.id = "end" + cclen + "h";
+                        endh.name = "end" + cclen + "h";
+                        endh.type = "number";
+                        endh.max = "23";
+                        endh.min = "0";
+                        end.appendChild(endh);
+                    const endsep = document.createTextNode(":");
+                        end.appendChild(endsep);
+                    const endm = document.createElement("input");
+                        endm.id = "end" + cclen + "m";
+                        endm.name = "end" + cclen + "m";
+                        endm.type = "number";
+                        endm.max = "59";
+                        endm.min = "0";
+                        end.appendChild(endm);
+                    enddiv.appendChild(end);
+                wddetails.appendChild(enddiv);
+            const abdiv = document.createElement("div");
+                abdiv.className = "wdditem";
+                const ablabel = document.createElement("label");
+                    const abltext = document.createTextNode("wochenzyklus [A/B/ ]: ");
+                        ablabel.appendChild(abltext);
+                    ablabel.htmlFor = "abz" + cclen;
+                    abdiv.appendChild(ablabel)
+                const abz = document.createElement("input");
+                    abz.id = "abz" + cclen;
+                    abz.name = "abz" + cclen;
+                    abz.type = "text";
+                    abz.className = "abinput";
+                    abdiv.appendChild(abz);
+                wddetails.appendChild(abdiv);
+            ccentry.appendChild(wddetails);
+        const form = document.getElementById("ccset");
+      ccentry.style = "animation: ccentry0 0.6s linear;";
+        form.appendChild(ccentry);
+
+    cclen+=1;
+  }
+
+  function openLobby(v="0", e="lobby") {
+    document.getElementById(e).style.top = v;
   }
 
   function isDST(date) {
@@ -294,7 +616,52 @@
         cid++;
         startCountdown(figure_weekly(data), display);
         openLobby("-100vh");
+        openLobby("-100vh", "slobby0");
     }
+
+  //TODO: HandleCustom()
+  function HandleCustomLink() {
+      //check wheter all values required are given
+      let wd = []; let starth = []; let startm = []; let endh = []; let endm = []; let abz = [];
+      let backstr = "";
+      for(let i=0; i<cclen; i++) {
+          //grab values
+          document.querySelectorAll("input[name=wd" + i + "]").forEach(function fn(element) { if(element.checked) {wd[i] = element.value;}});
+          console.log(wd[i]);
+          starth[i] = document.getElementById('start' + i + 'h').value;
+          console.log(starth[i]);
+          startm[i] = document.getElementById('start' + i + 'm').value;
+          endh[i] = document.getElementById('end' + i + 'h').value;
+          endm[i] = document.getElementById('end' + i + 'm').value;
+          abz[i] = document.getElementById('abz' + i).value; if(abz[i] == null){abz[i]="";}
+          if(wd[i] == null || starth[i] == null || startm[i] == null || endh[i] == null || endm[i] == null)
+            {alert("not all required values given");}
+
+          //insert values to big string
+          if(i!==0) {backstr += "%26";}
+          backstr += abz[i];
+          let startsecint = parseInt(wd[i]) * 86400 + parseInt(starth[i]) * 3600 + parseInt(startm[i]) * 60;
+          backstr += startsecint + "%26";
+          let endsecint = parseInt(wd[i]) * 86400 + parseInt(endh[i]) * 3600 + parseInt(endm[i]) * 60;
+          backstr += (endsecint - startsecint);
+
+          document.getElementById('ccformout').innerHTML = "dein personalisierter Link: <button onclick='Select(\"" + backstr + "\"); clipboard(\"matdoh.de/counter/?ts=" + backstr + "\")'>in die Zwischenablage kopieren</button>.";
+
+      }
+
+      //console.log("Hier bin ich");
+  }
+
+  async function ResetCustom() {
+      let ccentries = document.querySelectorAll(".ccentry");
+      ccentries.forEach(function fn(element) {
+          element.style = "animation: 0.3s linear 0s 1 none normal running ccentry1;";
+      });
+      await sleep(290);
+      ccentries.forEach((element) => element.remove());
+      cclen = 0;
+      AddEntry();
+  }
 
   function AutoChoose(){
         if(urlParams.has('ts')) {
@@ -393,7 +760,18 @@
       }
   }
 
+  function sleep (time) {
+      return new Promise((resolve) => setTimeout(resolve, time));
+  }
+
+  function clipboard(str) {
+        navigator.clipboard.writeText(str);
+    }
+
   //fullscreen event listener
+    //TODO: Fix WakeLock (it seems buggy but not really tested)
+    let wakeLock = null;
+    let wakeSent;
   ["fullscreenchange", "webkitfullscreenchange", "mozfullscreenchange", "msfullscreenchange"].forEach(
       eventType => document.addEventListener(eventType, async function () {
           if (full) {
@@ -403,6 +781,7 @@
           } else {
               try {
                   wakeLock = await navigator.wakeLock.request('screen');
+                  console.log(wakeLock)
               } catch {
                   console.log("no wakelock");
               }
