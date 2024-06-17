@@ -1,0 +1,247 @@
+#lobbybutton {
+    top: 1em;
+    right: 1em;
+    position: absolute;
+    z-index: 600;
+}
+
+#lobby {
+    transition: 0.8s;
+    background: white;
+    position: absolute;
+    height: 100%;
+    width: 100vw;
+    overflow: hidden;
+    top: -100vh;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 700;
+}
+.ltitle {
+    text-align: center;
+}
+.ltitle h3 {
+    /*background-color: blue;*/
+    font-size: 8vh;
+    /*font-size: 3em;*/
+    margin-bottom: 0;
+    font-family: 'Azeret Mono', monospace;
+}
+.ltitle h4 {
+    /*background-color: blue;*/
+    /*font-size: 2em;*/
+    font-size: 6vh;
+    margin-top: 0;
+    font-family: 'Azeret Mono', monospace;
+    margin-bottom: 1em;
+}
+
+.clist {
+    /*background: blue;*/
+    border-left: 2px solid black;
+    padding-left: 1em;
+    height: auto;
+    /*max-width: 80vh;*/
+    top:0;
+    margin-bottom: 4vh;
+    overflow: scroll;
+    p {
+        font-size: 1em;
+        font-family: "Roboto", "Plus Jakarta", sans-serif;
+        a {
+            color: inherit;
+        }
+    }
+}
+button {
+    background: none;
+    border: none;
+    font-size: 1em;
+    color: black;
+}
+#inLobbyButton {
+    position: absolute;
+    top: auto;
+    bottom: 1em;
+    right: 1em;
+}
+
+#slobby0 {
+    transition: 0.8s;
+    background: #FFF;
+    position: absolute;
+    height: 100%;
+    width: 100vw;
+    overflow: hidden;
+    top: -100vh;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 710;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    border-bottom: 12px solid #777777;
+}
+#ccformblock {
+    margin-top: 10vh;
+    max-height: 80vh;
+    overflow: scroll;
+}
+.ccentry {
+    border-bottom: 1px solid black;
+    padding: 0.7em 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    height: 120px;
+}
+#ccformout button {
+    text-decoration: underline;
+    font-style: italic;
+}
+@keyframes ccentry0 {
+    0% {
+        height: 0;
+        padding: 0;
+    } 99% {
+          height: 120px;
+          padding: 0.7em 0;
+          div {
+              display: none;
+              opacity: 0;
+          }
+      } 100% {
+            div {
+                display: flex;
+                opacity: 100%;
+            }
+        }
+}
+@keyframes ccentry1 {
+    0% {
+        div {
+            display: flex;
+            opacity: 100%;
+        }
+    } 1% {
+          height: 120px;
+          padding: 0.7em 0;
+          div {
+              display: none;
+              opacity: 0;
+          }
+      } 100% {
+            height: 0;
+            padding: 0;
+        }
+}
+.formendbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-top: 0.7em;
+}
+.wdbar {
+    margin-bottom: 0.7em;
+}
+.wden {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 40px;
+    height: 40px;
+    position: relative;
+    background: #DDDDDD;
+    transition: 0.1s;
+    margin: 0 10px;
+}
+.wden:after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 709;
+    transform: translate(-50%, -50%);
+    font-family: 'Azeret Mono', monospace;
+}
+.wden:hover {
+    border: 1px solid #777777;
+    background: #BBBBBB;
+}
+.wden:checked {
+    border: 2px solid darkblue;
+    background: lightskyblue;
+}
+.wdmon:after {content: "mo";}
+.wdtue:after {content: "di";}
+.wdwed:after {content: "mi";}
+.wdthu:after {content: "do";}
+.wdfri:after {content: "fr";}
+.wdsat:after {content: "sa";}
+.wdsun:after {content: "so";}
+
+.wddetails {
+    height: 42px;
+    display: flex;
+    font-family: 'Azeret Mono', monospace;
+    align-items: center;
+}
+.wdditem {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 20px;
+}
+.abinput {
+    box-sizing: border-box;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 40px;
+    width: 40px;
+    border: none;
+    background: #DDDDDD;
+    transition: 0.1s;
+    margin-left: 10px;
+    font-family: inherit;
+    text-align: center;
+}
+.abinput:hover {
+    border-bottom: 1px solid #777777;
+    background: #BBBBBB;
+}
+.abinput:focus {
+    outline: none;
+    border-bottom: 2px solid darkblue;
+}
+.tsinput {
+    font-family: inherit;
+    padding-left: 10px;
+}
+.tsinput input{
+    box-sizing: border-box;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 40px;
+    width: 40px;
+    border: none;
+    background: #DDDDDD;
+    transition: 0.1s;
+    font-family: inherit;
+    text-align: center;
+    margin: 3px;
+}
+.tsinput input:hover {
+    border-bottom: 1px solid #777777;
+    background: #BBBBBB;
+}
+.tsinput input:focus {
+    outline: none;
+    border-bottom: 2px solid darkblue;
+}
+.tsinput input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
