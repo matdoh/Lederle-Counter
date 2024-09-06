@@ -1,10 +1,10 @@
 const rgb = detColors();
 let cid = 0;
-var elem = document.documentElement;
+let elem = document.documentElement;
 let full = false;
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
-var isgoing = false;
+let isgoing = false;
 
 function startCountdown(duration, display) {
     var timer = duration, days, hours, minutes, seconds;
