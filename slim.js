@@ -29,18 +29,19 @@ function startCountdown(duration, display) {
             clearInterval(interval);
             document.querySelector(display).textContent = "Countdown finished!";
         }
-        opac = (timer / 3600);
+        let opac = (timer / 3600);
         if (opac > 1) {
             opac = 1;
         }
-        aopac = 1 - (opac);
+        let aopac = 1 - (opac);
+        //console.log(timer + "(" + isgoing + "): " + opac)
 
         if(isgoing === true)
         {document.getElementById("underlay").style.background = "rgba("+ rgb[0] +", "+ rgb[1] +", "+ rgb[2] +", " + aopac + ")";
             document.getElementById("overlay").style.background = "rgba("+ rgb[3] +", "+ rgb[4] +", "+ rgb[5] +", " + opac + ")";
             /*display.textContent = "true in - opac - rot";*/}
-        else {document.getElementById("overlay").style.background = "rgba("+ rgb[0] +", "+ rgb[1] +", "+ rgb[2] +", " + opac + ")";
-            document.getElementById("underlay").style.background = "rgba("+ rgb[3] +", "+ rgb[4] +", "+ rgb[5] +", " + aopac + ")";
+        else {document.getElementById("overlay").style.background = "rgba("+ rgb[3] +", "+ rgb[4] +", "+ rgb[5] +", " + aopac + ")";
+            document.getElementById("underlay").style.background = "rgba("+ rgb[0] +", "+ rgb[1] +", "+ rgb[2] +", " + opac + ")";
             /*display.textContent = "false out - opac - grün";*/}
     }, 1000);
 }
@@ -132,6 +133,7 @@ function figure_weekly(rawstr="213000&5400&385800&5400") {
     //Value-code
     let next = 604800;
 
+    isgoing = false;
     for(let i = 0; i < tsinweekarr.length; i++) {
         if(tsinweekarr[i] < tiw && tiw < (tsinweekarr[i] + lenarr[i])) {isgoing = true;}
 
