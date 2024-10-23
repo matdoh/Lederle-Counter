@@ -1,5 +1,35 @@
 let cclen = 0
 
+window.onload = function () {
+    AddEntry();
+    startCountdown(figure_weekly(AutoChoose()), '#countdown0');
+
+    let lobbies = [document.getElementById("lobby")];
+    lobbies.push(document.getElementById("slobby0"));
+    lobbies.push(document.getElementById("overlay"));
+    lobbies.forEach(function (lobby) {
+        addEventListener('wheel', function(event) {
+            if (lobby.offsetTop !== 0) {return;}
+            if (lobby.id.replace("lobby", "") !== lobby.id) {
+                if (event.deltaY > 50) {
+                    openLobby("-100vh", lobby.id);
+                }
+            }
+            if (lobby.id === "overlay") {
+                if (event.deltaY < -50) {
+                    openLobby("0", "lobby");
+                }
+            }
+            if (lobby.id === "lobby") {
+                if (event.deltaY < -50) {
+                    openLobby("0", "slobby0")
+                }
+
+            }
+        });
+    });
+}
+
 function AddEntry() {
     const ccentry = document.createElement("div");
     ccentry.className = "ccentry";
