@@ -55,12 +55,6 @@
         }
     }
 }
-button {
-    background: none;
-    border: none;
-    font-size: 1em;
-    color: black;
-}
 #inLobbyButton {
     position: absolute;
     top: auto;

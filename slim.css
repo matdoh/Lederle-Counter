@@ -12,6 +12,12 @@ h1 {
 p {
     font-family: "Roboto", "Plus Jakarta", sans-serif;
 }
+button {
+    background: none;
+    border: none;
+    font-size: 1em;
+    color: black;
+}
 #underlay {
     position: absolute;
     top: 0;
