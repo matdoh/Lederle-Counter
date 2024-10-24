@@ -159,6 +159,23 @@ function AddEntry() {
     cclen+=1;
 }
 
+function AutoChoose(){
+    if(urlParams.has('ts')) {
+        return urlParams.get('ts');
+    } else {
+        let cname = "lederle";
+
+        if(urlParams.has('c')) {cname = urlParams.get('c');}
+        //TODO Cookies wieder supporten aber js cookies sind shit
+        //else if(Cookies.get('cname') !== null) {cname = Cookies.get('cname') + " ";}
+
+        cname = "\"" + cname + "\"";
+
+        let onclstr = document.querySelector("button[name=" + cname + "]").onclick.toString();
+        return onclstr.substring(34, onclstr.length - 4);
+    }
+}
+
 function openLobby(v="0", e="lobby") {
     document.getElementById(e).style.top = v;
 }

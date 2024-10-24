@@ -1,10 +1,10 @@
-const rgb = detColors();
 let cid = 0;
 let elem = document.documentElement;
 let full = false;
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 let isgoing = false;
+const rgb = detColors();
 
 function startCountdown(duration, display) {
     var timer = duration, days, hours, minutes, seconds;
@@ -47,15 +47,15 @@ function startCountdown(duration, display) {
 }
 
 window.onload = function () {
-    AddEntry();
+    console.log("hehr");
     startCountdown(figure_weekly(AutoChoose()), '#countdown0');
 };
 
 function detColors() {
     /*TODO WHEN FREE: detColors from file,
     requires JSON-Encrypt, Full JS*/
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
+    /*const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);*/
     const colorstamp = urlParams.get('cs');
 
     if(colorstamp != null) {
@@ -79,16 +79,7 @@ function AutoChoose(){
     if(urlParams.has('ts')) {
         return urlParams.get('ts');
     } else {
-        let cname = "lederle";
-
-        if(urlParams.has('c')) {cname = urlParams.get('c');}
-        //TODO Cookies wieder supporten aber js cookies sind shit
-        //else if(Cookies.get('cname') !== null) {cname = Cookies.get('cname') + " ";}
-
-        cname = "\"" + cname + "\"";
-
-        let onclstr = document.querySelector("button[name=" + cname + "]").onclick.toString();
-        return onclstr.substring(34, onclstr.length - 4);
+        return "213000&5400&385800&5400";
     }
 }
 
