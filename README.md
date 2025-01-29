@@ -41,6 +41,9 @@ Der Zweite steht entsprechend für die Farbe, die der Counter hat, wenn das Even
 Damit der Counter problemlos im iFrame funktioniert müssen einige Dinge gegeben sein. 
 Zunächst einmal ist der Counter für Querformat designt, Hochvormat ist irgendwie etwas sinnlos.<br>
 Des weiteren müssen dem iFrame folgendes Attribut gegeben werden: <b>allow="fullscreen;screen-wake-lock"</b>.
+<br><br>
+<h3>Weitere Hinweise</h3>
+Die <a href="https://chromewebstore.google.com/detail/picture-in-picture-any-si/fgopnhbjlphjjcfbapfcbakjekpffkff">pip-Browser-Extension</a> ist sehr zu empfehlen, sie erlaubt es auf Desktop den Counter entkoppelt in der Ecke seines Bildschirms eingeblendet zu halten.
 
 <h1>The Lederle-Countdown</h1>
 In the first semester of my Computer-Science-Bachelor I had math-lectures from the nice Ms. Lederle. 
@@ -84,3 +87,6 @@ the second one is for the color that the countdown will have when the event star
 The countdown requires certain settings to work as intended.
 First of all, it is designed for wideer screen, vertical iFrames seem pointless here.<br>
 Also, the iFrame must be given the following attribute: <b>allow="fullscreen;screen-wake-lock"</b>.
+<br><br>
+<h3>further hints</h3>
+The <a href="https://chromewebstore.google.com/detail/picture-in-picture-any-si/fgopnhbjlphjjcfbapfcbakjekpffkff">pip-Browser-Extension</a> is recommended, it allows to detatch the counter to let it hover in the corner of yur screen.
